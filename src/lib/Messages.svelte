@@ -2,6 +2,7 @@
   import {onMount, onDestroy} from "svelte";
   import {currentUser, pb} from "./pocketbase";
   import profile from '/profile.svg';
+  import type { RecordModel } from "pocketbase";
 
   let newMessage: String;
   let messages: RecordModel[] = [];
@@ -25,7 +26,7 @@
           messages = [...messages, record];
         }
         if (action === 'delete') {
-          message = messages.filter((m) => m.id !== record.id);
+          messages = messages.filter((m) => m.id !== record.id);
         }
       });
   });
@@ -37,20 +38,21 @@
   async function sendMessage() {
     const data = {
       text: newMessage,
-      user: $currentUser.id,
+      user: $currentUser?.id,
     };
 
     const createdMessage = await pb.collection('messages').create(data);
+    newMessage = "";
   }
 </script>
 
-<div>
+{#if $currentUser} 
   <form on:submit|preventDefault={sendMessage}>
     <input placeholder="Message" type="text" bind:value={newMessage} />
     <button type="submit">Send</button>
 
   </form>
-</div>
+{/if}
 
   <div class="messages">
     {#each messages as message (message.id)}
