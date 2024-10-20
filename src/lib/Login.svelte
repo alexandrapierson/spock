@@ -33,6 +33,7 @@
 
 {#if $currentUser}
   <p>Signed in as {$currentUser.username}</p>
+  <button on:click={signOut}>Sign Out</button>
 
 {:else} 
   <form on:submit|preventDefault>
