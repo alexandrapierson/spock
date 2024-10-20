@@ -14,6 +14,7 @@
       const data = {
         username,
         password,
+        passwordConfirm: password,
         name,
       }
 
@@ -36,20 +37,20 @@
 {:else} 
   <form on:submit|preventDefault>
     <input
+    placeholder="Name"
+    type="text"
+    bind:value={name}
+  />
+    <input
       placeholder="Username"
       type="text"
       bind:value={username}
     />
     <input
       placeholder="Password"
-      type="text"
+      type="password"
       bind:value={password}
-    />
-    <input
-      placeholder="Name"
-      type="text"
-      bind:value={name}
-    />
+    />    
     <button on:click={signUp}>Sign Up</button>
     <button on:click={login}>Login</button>
   </form>
